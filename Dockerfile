@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Build and install gettext 0.26 (matches local Mac version)
-RUN curl -fsSL https://ftp.gnu.org/pub/gnu/gettext/gettext-0.26.tar.gz -o gettext.tar.gz \
+RUN curl -fsSL https://mirror.sobukus.de/files/src/gettext/gettext-0.26.tar.gz -o gettext.tar.gz \
     && tar xzf gettext.tar.gz \
     && cd gettext-0.26 \
     && ./configure --prefix=/usr/local --disable-java --disable-csharp \
