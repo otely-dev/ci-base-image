@@ -8,7 +8,7 @@ A lightweight base image for Django CI/CD workflows with Python, Node.js, and co
 - **Node.js 22.x** - LTS version with npm
 - **pnpm** - Fast Node.js package manager  
 - **uv** - Ultra-fast Python package manager
-- **gettext** - Translation tools for Django
+- **gettext 0.26** - Latest translation tools for Django (matches Mac Homebrew version)
 - **Git** - Version control
 - **Build tools** - gcc, make, libpq-dev for Python package compilation
 
