@@ -54,3 +54,49 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Test image tools and versions
+        run: |
+          echo "Testing CI base image tools and versions..."
+          docker run --rm ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest bash -c "
+            set -e
+            echo '=== Tool Versions ==='
+            
+            # Python version
+            echo 'Python:' \$(python3 --version)
+            test \$(python3 -c 'import sys; print(f\"{sys.version_info.major}.{sys.version_info.minor}\")') = '3.13'
+            
+            # Node.js version  
+            echo 'Node.js:' \$(node --version)
+            test \$(node --version | cut -d'v' -f2 | cut -d'.' -f1) = '22'
+            
+            # pnpm version
+            echo 'pnpm:' \$(pnpm --version)
+            pnpm --version > /dev/null
+            
+            # uv version
+            echo 'uv:' \$(uv --version)
+            uv --version > /dev/null
+            
+            # gettext version (verify 0.26)
+            echo 'gettext:' \$(xgettext --version | head -1)
+            xgettext --version | head -1 | grep -q '0\.26'
+            
+            # git version
+            echo 'git:' \$(git --version)
+            git --version > /dev/null
+            
+            # Verify gettext tools are accessible
+            echo '=== Gettext Tools Check ==='
+            which xgettext
+            which msgfmt  
+            which msguniq
+            which msgmerge
+            
+            # Verify PATH includes /usr/local/bin
+            echo '=== PATH Check ==='
+            echo \"PATH: \$PATH\"
+            echo \$PATH | grep -q '/usr/local/bin'
+            
+            echo '✅ All tools verified successfully!'
+          "
